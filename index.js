@@ -1,4 +1,3 @@
-
 /*
  * router
  * Router component
@@ -32,6 +31,7 @@ function Router() {
     return new Router();
   }
   Emitter.call(this);
+  this._routes = {};
 }
 
 /*
@@ -40,4 +40,19 @@ function Router() {
 
 Router.prototype = Object.create(Emitter.prototype);
 Router.prototype.constructor = Router;
+
+/**
+ *  route
+ *  add a route
+ * 
+ * @param {String} path path
+ * @param {Function} callback callback
+ * @return {Route} this for chaining
+ * @api public
+ */
+
+Router.prototype.route = function (path, name, callback) {
+  this.routes[path] = callback;
+  return this;
+};
 
