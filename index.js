@@ -52,7 +52,6 @@ Router.prototype.constructor = Router;
  */
 
 Router.prototype.route = function (path, name, callback) {
-  this.routes[path] = callback;
+  this._routes[path] = callback;
   return this;
 };
-
