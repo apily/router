@@ -20,10 +20,9 @@ var Emitter = require('emitter');
 
 /*
  * Router
- * Create a collection.
+ * Create a router.
  *
- * @param {Array} models models
- * @return {Collection} a collection
+ * @api public
  */
 
 function Router() {
@@ -31,7 +30,7 @@ function Router() {
     return new Router();
   }
   Emitter.call(this);
-  this._routes = {};
+  this.routes = {};
 }
 
 /*
@@ -46,12 +45,18 @@ Router.prototype.constructor = Router;
  *  add a route
  * 
  * @param {String} path path
+ * @param {String} name name
  * @param {Function} callback callback
  * @return {Route} this for chaining
  * @api public
  */
 
 Router.prototype.route = function (path, name, callback) {
-  this._routes[path] = callback;
+  function onroute () {
+    this.trigger('route:' + name);
+    callback.apply(this, arguments);
+  }
+  
+  this.routes[path] = onroute.bind(this);
   return this;
 };
