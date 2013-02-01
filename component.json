@@ -1,0 +1,16 @@
+{
+  "name": "router",
+  "repo": "apily/router",
+  "version": "0.0.1",
+  "description": "Router component",
+  "keywords": ["router", "hash"],
+  "scripts": ["index.js"],
+  "dependencies": {
+    "apily/history": "*",
+    "component/emitter": "*"
+  },
+  "development": {
+    "component/assert": "*"
+  },
+  "license": "MIT"
+}
