@@ -17,6 +17,7 @@ module.exports = Router;
  */
 
 var Emitter = require('emitter');
+var history = require('history');
 
 /*
  * Router
@@ -30,7 +31,7 @@ function Router() {
     return new Router();
   }
   Emitter.call(this);
-  this.routes = {};
+  this.history = history;
 }
 
 /*
@@ -44,19 +45,30 @@ Router.prototype.constructor = Router;
  *  route
  *  add a route
  * 
- * @param {String} path path
- * @param {String} name name
+ * @param {String} route route
  * @param {Function} callback callback
  * @return {Route} this for chaining
  * @api public
  */
 
-Router.prototype.route = function (path, name, callback) {
-  function onroute () {
-    this.trigger('route:' + name);
-    callback.apply(this, arguments);
-  }
-  
-  this.routes[path] = onroute.bind(this);
+Router.prototype.route = function (route, callback) {
+  this.history.route(route, function (fragment) {
+    
+  });
   return this;
+};
+
+/**
+ * extract_params
+ * Given a route, and a URL fragment that it matches, 
+ * return the array of extracted parameters.
+ * 
+ * @param {String} route route
+ * @param {String} fragment fragment
+ * @return {Array} extracted parameters
+ * @api public
+ */
+
+Route.prototype.extract_params = function (route, fragment) {
+  return route.exec(fragment).slice(1);
 };
