@@ -19,6 +19,16 @@ module.exports = Router;
 var Emitter = require('emitter');
 var history = require('history');
 
+/**
+ * Variables
+ * Cached regular expressions for matching 
+ * named param parts and splatted parts of route strings.
+ */
+
+var named_param = /:\w+/g;
+var splat_param = /\*\w+/g;
+var escape_regexp = /[-[\]{}()+?.,\\^$|#\s]/g;
+
 /*
  * Router
  * Create a router.
@@ -52,10 +62,35 @@ Router.prototype.constructor = Router;
  */
 
 Router.prototype.route = function (route, callback) {
-  this.history.route(route, function (fragment) {
-    
-  });
+  function onroute (fragment) {
+    var args = this.extract_params(route, fragment);
+    callback.apply(this, args);
+    args.unshift('route:' + route);
+    this.trigger.apply(this, args);
+    this.history.trigger('route', this, route, args);
+  }
+  
+  this.history.route(route, onroute.bind(this));
   return this;
+};
+
+/**
+ * route_to_regexp
+ * Convert a route string into a regular expression, 
+ * suitable for matching against the current location hash.
+ * 
+ * @param {String} route route
+ * @return {RegExp} regexp of the route
+ * @api pubblic
+ */
+
+Router.prototype.route_to_regexp = function (route) {
+  var route = route
+    .replace(escape_regexp, '\\$&')
+    .replace(named_param, '([^\/]+)')
+    .replace(splat_param, '(.*?)');
+  var regexp = new RegExp('^' + route + '$');
+  return regexp;
 };
 
 /**
