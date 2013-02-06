@@ -104,6 +104,6 @@ Router.prototype.route_to_regexp = function (route) {
  * @api public
  */
 
-Route.prototype.extract_params = function (route, fragment) {
+Router.prototype.extract_params = function (route, fragment) {
   return route.exec(fragment).slice(1);
 };
