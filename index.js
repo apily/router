@@ -66,8 +66,8 @@ Router.prototype.route = function (route, callback) {
     var args = this.extract_params(route, fragment);
     callback.apply(this, args);
     args.unshift('route:' + route);
-    this.trigger.apply(this, args);
-    this.history.trigger('route', this, route, args);
+    this.emit.apply(this, args);
+    this.history.emit('route', this, route, args);
   }
   
   this.history.route(route, onroute.bind(this));
