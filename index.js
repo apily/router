@@ -41,7 +41,7 @@ function Router() {
     return new Router();
   }
   Emitter.call(this);
-  this.history = history;
+  this.history = history();
 }
 
 /*
