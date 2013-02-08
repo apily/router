@@ -62,15 +62,17 @@ Router.prototype.constructor = Router;
  */
 
 Router.prototype.route = function (route, callback) {
+  var regexp = this.route_to_regexp(route);
+   
   function onroute (fragment) {
-    var args = this.extract_params(route, fragment);
+    var args = this.extract_params(regexp, fragment);
     callback.apply(this, args);
     args.unshift('route:' + route);
     this.emit.apply(this, args);
     this.history.emit('route', this, route, args);
   }
   
-  this.history.route(route, onroute.bind(this));
+  this.history.route(regexp, onroute.bind(this));
   return this;
 };
 
