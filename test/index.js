@@ -36,4 +36,18 @@ describe('Route#route', function () {
     }, 100);
   });
 
+  it('should register a parametrized route', function (done) {
+    router.route('#hello/:name', function (name) { 
+      console.log(name);
+      done();
+    });
+    setTimeout(function () {
+      window.location = '#z';
+      setTimeout(function () {
+        window.location = '#hello/enrico';
+      }, 100);
+    }, 100);
+  });
+
+
 });
