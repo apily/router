@@ -24,8 +24,7 @@ describe('Route#route', function () {
   });
 
   it('should register a simple route', function (done) {
-    router.route('#a', function() { 
-      console.log(arguments);
+    router.route('#a', 'a', function () { 
       done();
     });
     setTimeout(function () {
@@ -37,8 +36,8 @@ describe('Route#route', function () {
   });
 
   it('should register a parametrized route', function (done) {
-    router.route('#hello/:name', function (name) { 
-      console.log(name);
+    router.route('#hello/:name', 'hello', function (name) { 
+      assert(name === 'enrico');
       done();
     });
     setTimeout(function () {
@@ -49,5 +48,17 @@ describe('Route#route', function () {
     }, 100);
   });
 
-
+  it('should emit route event', function (done) {
+    router.route('#hello/:name', 'hello', function () {});
+    router.on('route:hello', function (name) {
+      assert(name === 'enrico');
+      done();
+    });
+    setTimeout(function () {
+      window.location = '#z';
+      setTimeout(function () {
+        window.location = '#hello/enrico';
+      }, 100);
+    }, 100);
+  });
 });
