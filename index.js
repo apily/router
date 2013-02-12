@@ -56,23 +56,19 @@ Router.prototype.constructor = Router;
  *  add a route
  * 
  * @param {String} route route name
- * @param {String} name route event name
  * @param {Function} callback callback
  * @return {Route} this for chaining
  * @api public
  */
 
-Router.prototype.route = function (route, name, callback) {
+Router.prototype.route = function (route, callback) {
   var self = this;
   var history = this.history;
   var regexp = this.route_to_regexp(route);
-  var emit = this.emit;
   
   function onroute (fragment) {
-    var args = self.extract_params(regexp, fragment);
-    callback.apply(self, args);
-    args.unshift('route:' + name);
-    emit.apply(self, args);
+    var params = self.extract_params(regexp, fragment);
+    callback.apply(self, params);
   }
   
   history.route(regexp, onroute);
