@@ -7,7 +7,7 @@
   "scripts": ["index.js"],
   "dependencies": {
     "apily/history": "*",
-    "component/emitter": "*"
+    "apily/emitter": "*"
   },
   "development": {
     "component/assert": "*"
