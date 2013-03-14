@@ -15,6 +15,7 @@ This will generate a file in build/build.js that you can import in your HTML fil
     <script type="text/javascript" src="build/build.js"></script>
     <script type="text/javascript">
       var Router = require("apily-router");
+      ...
     </script>
 
 ## Usage
