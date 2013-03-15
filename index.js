@@ -96,15 +96,15 @@ Router.prototype.route_to_regexp = function (route) {
 
 /**
  * extract_params
- * Given a route, and a URL fragment that it matches, 
+ * Given a regexp, and a URL fragment that it matches,
  * return the array of extracted parameters.
- * 
- * @param {String} route route
+ *
+ * @param {String} regexp route regexp
  * @param {String} fragment fragment
  * @return {Array} extracted parameters
  * @api public
  */
 
-Router.prototype.extract_params = function (route, fragment) {
-  return route.exec(fragment).slice(1);
+Router.prototype.extract_params = function (regexp, fragment) {
+  return regexp.exec(fragment).slice(1);
 };
