@@ -12,30 +12,36 @@ Remember to build your component doing
 
 This will generate a file in build/build.js that you can import in your HTML file with:
 
-    <script type="text/javascript" src="build/build.js"></script>
-    <script type="text/javascript">
-      var Router = require("apily-router");
-      ...
-    </script>
+```html
+<script type="text/javascript" src="build/build.js"></script>
+<script type="text/javascript">
+  var Router = require("apily-router");
+  ...
+</script>
+```
 
 ## Usage
 Setting the router:
 
-    var router = new Router();
-    
-    router
-      .route('#users', show_users)
-      .route('#users/:name', show_user)
-      .route('#users/:name/profile', function(name) {
-        console.log("You are watching " + name + "'s profile");
-      });
+```js
+var router = new Router();
+
+router
+  .route('#users', show_users)
+  .route('#users/:name', show_user)
+  .route('#users/:name/profile', function(name) {
+    console.log("You are watching " + name + "'s profile");
+  });
+```
 
 You can trigger a change in route simply with
 
-    window.location = '#users/federico/profile';
-    // You are watching federico's profile
-    window.location = '#users/nicola/profile';
-    // You are watching nicola's profile
+```js
+window.location = '#users/federico/profile';
+// You are watching federico's profile
+window.location = '#users/nicola/profile';
+// You are watching nicola's profile
+```
 
 ## API
 
