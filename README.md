@@ -32,6 +32,9 @@ router
   .route('#users/:name/profile', function(name) {
     console.log("You are watching " + name + "'s profile");
   });
+  
+router.history.start();
+// This is for listening window.location changes
 ```
 
 You can trigger a change in route simply with
