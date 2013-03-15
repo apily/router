@@ -42,14 +42,16 @@ You can trigger a change in route simply with
 ### Router()
 Create a router
 
-    var router = new Router();
+```js
+var router = new Router();
+```
 
 ### Router#route(route, callback)
 Add a route to `this`
 
-    var router = new Router();
-    //...
-    router.route("#here", callback);
+```js
+router.route("#here", callback);
+```
 
 > **Note**  
 > `apily/router` does not support HTML5 `pushState` yet.  
@@ -58,14 +60,18 @@ Add a route to `this`
 ### Router#route_to_regexp(route)
 Convert a route string into a regular expression, suitable for matching against the current location hash.
 
-    Router.route_to_regexp("#users/:name/profile")
-    // /^\#users/([^/]+)/profile$/
+```js
+router.route_to_regexp("#users/:name/profile")
+// /^\#users/([^/]+)/profile$/
+```
 
 ### Router#extract_params(regexp, fragment)
 Given a regexp, and a URL fragment that it matches, return the array of extracted parameters.
 
-    Router.extract_params(/^\#users/([^/]+)/profile$/, '#users/nicola/profile')
-    // 0: nicola
+```js
+router.extract_params(/^\#users/([^/]+)/profile$/, '#users/nicola/profile')
+// ["nicola"]
+```
 
 ## License
 
