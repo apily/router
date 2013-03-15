@@ -21,12 +21,14 @@ This will generate a file in build/build.js that you can import in your HTML fil
 ## Usage
 Setting the router:
 
-    var router = new Router()
-        .route('#users', show_users)
-        .route('#users/:name', show_user)
-        .route('#users/:name/profile', function(name) {
-            console.log("You are watching "+name+"'s profile");
-        });
+    var router = new Router();
+    
+    router
+      .route('#users', show_users)
+      .route('#users/:name', show_user)
+      .route('#users/:name/profile', function(name) {
+        console.log("You are watching " + name + "'s profile");
+      });
 
 You can trigger a change in route simply with
 
@@ -35,34 +37,31 @@ You can trigger a change in route simply with
     window.location = '#users/nicola/profile';
     // You are watching nicola's profile
 
-# API
+## API
 
 ### Router()
 Create a router
 
     var router = new Router();
 
-### Router.route(route, callback)
+### Router#route(route, callback)
 Add a route to `this`
 
     var router = new Router();
-    ...
+    //...
     router.route("#here", callback);
 
-or
+> **Note**  
+> `apily/router` does not support HTML5 `pushState` yet.  
+> You have to include `#` as prefix in your routes.
 
-    var router = new Router();
-        .route("#here", callback);
-
-*Note:* `apily/router` does not support HTML5 `pushState` yet. You have to include `#` as prefix in your routes.
-
-### Router.route_to_regexp(route)
+### Router#route_to_regexp(route)
 Convert a route string into a regular expression, suitable for matching against the current location hash.
 
     Router.route_to_regexp("#users/:name/profile")
     // /^\#users/([^/]+)/profile$/
 
-### Router.extract_params(regexp, fragment)
+### Router#extract_params(regexp, fragment)
 Given a regexp, and a URL fragment that it matches, return the array of extracted parameters.
 
     Router.extract_params(/^\#users/([^/]+)/profile$/, )
