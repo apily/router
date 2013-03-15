@@ -64,7 +64,7 @@ Convert a route string into a regular expression, suitable for matching against 
 ### Router#extract_params(regexp, fragment)
 Given a regexp, and a URL fragment that it matches, return the array of extracted parameters.
 
-    Router.extract_params(/^\#users/([^/]+)/profile$/, )
+    Router.extract_params(/^\#users/([^/]+)/profile$/, '#users/nicola/profile')
     // 0: nicola
 
 ## License
