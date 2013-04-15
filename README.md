@@ -66,20 +66,12 @@ router.route("#here", callback);
 > `apily/router` does not support HTML5 `pushState` yet.  
 > You have to include `#` as prefix in your routes.
 
-### Router#route_to_regexp(route)
-Convert a route string into a regular expression, suitable for matching against the current location hash.
+### Router#navigate(location)
+Navigate to location.
 
 ```js
-router.route_to_regexp("#users/:name/profile")
-// /^\#users/([^/]+)/profile$/
-```
-
-### Router#extract_params(regexp, fragment)
-Given a regexp, and a URL fragment that it matches, return the array of extracted parameters.
-
-```js
-router.extract_params(/^\#users/([^/]+)/profile$/, '#users/nicola/profile')
-// ["nicola"]
+router.navigate("#users/enrico/profile");
+//window.location.hash === "#users/enrico/profile"
 ```
 
 ## License
