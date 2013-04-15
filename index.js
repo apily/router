@@ -17,7 +17,7 @@ module.exports = Router;
  */
 
 var Emitter = require('emitter');
-var history = require('history');
+var History = require('history');
 
 /**
  * Variables
@@ -41,7 +41,7 @@ function Router() {
     return new Router();
   }
   Emitter.call(this);
-  this.history = history();
+  this.history = History();
 }
 
 /*
@@ -64,14 +64,28 @@ Router.prototype.constructor = Router;
 Router.prototype.route = function (route, callback) {
   var self = this;
   var history = this.history;
-  var regexp = this.route_to_regexp(route);
+  var regexp = route_to_regexp(route);
   
   function onroute (fragment) {
-    var params = self.extract_params(regexp, fragment);
+    var params = extract_params(regexp, fragment);
     callback.apply(self, params);
   }
   
   history.route(regexp, onroute);
+  return this;
+};
+
+/**
+ * navigate
+ * Change the location to `location`
+ * 
+ * @param {String} location the new location to navigate to
+ * @return {Router} this for chaining
+ * @api public
+ */
+
+Router.prototype.navigate = function (location) {
+  window.location = location;
   return this;
 };
 
@@ -82,10 +96,9 @@ Router.prototype.route = function (route, callback) {
  * 
  * @param {String} route route
  * @return {RegExp} regexp of the route
- * @api pubblic
  */
 
-Router.prototype.route_to_regexp = function (route) {
+function route_to_regexp (route) {
   var route = route
     .replace(escape_regexp, '\\$&')
     .replace(named_param, '([^\/]+)')
@@ -102,9 +115,8 @@ Router.prototype.route_to_regexp = function (route) {
  * @param {String} regexp route regexp
  * @param {String} fragment fragment
  * @return {Array} extracted parameters
- * @api public
  */
 
-Router.prototype.extract_params = function (regexp, fragment) {
+function extract_params (regexp, fragment) {
   return regexp.exec(fragment).slice(1);
 };
