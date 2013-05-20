@@ -6,45 +6,6 @@ Router component
 
     $ component install apily/router
 
-Remember to build your component doing
-
-    $ component build
-
-This will generate a file in build/build.js that you can import in your HTML file with:
-
-```html
-<script type="text/javascript" src="build/build.js"></script>
-<script type="text/javascript">
-  var Router = require("apily-router");
-  ...
-</script>
-```
-
-## Usage
-Setting the router:
-
-```js
-var router = new Router();
-
-router
-  .route('#users', show_users)
-  .route('#users/:name', show_user)
-  .route('#users/:name/profile', function(name) {
-    console.log("You are watching " + name + "'s profile");
-  });
-  
-router.history.start();
-// This is for listening window.location changes
-```
-
-You can trigger a change in route simply with
-
-```js
-window.location = '#users/federico/profile';
-// You are watching federico's profile
-window.location = '#users/nicola/profile';
-// You are watching nicola's profile
-```
 
 ## API
 
@@ -55,23 +16,16 @@ Create a router
 var router = new Router();
 ```
 
-### Router#route(route, callback)
-Add a route to `this`
+### Router#get(String:path, Function:callback, [Object:context])
 
 ```js
-router.route("#here", callback);
+router.get("#users/:user", callback);
 ```
 
-> **Note**  
-> `apily/router` does not support HTML5 `pushState` yet.  
-> You have to include `#` as prefix in your routes.
-
-### Router#navigate(location)
-Navigate to location.
+### Router#dispatch(String:path)
 
 ```js
-router.navigate("#users/enrico/profile");
-//window.location.hash === "#users/enrico/profile"
+router.navigate("#users/enrico");
 ```
 
 ## License
