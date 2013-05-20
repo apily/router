@@ -8,30 +8,20 @@ describe('Route#route', function () {
     router = Router();
   });
 
-  beforeEach(function () {
-    window.location = '#';
-    router.history.start();
-  });
-
-  afterEach(function () {
-    router.history.stop();
-  });
-
   it('should register a simple route', function (done) {
-    router.route('#b', function () { 
+    router.get('#b', function (req) { 
       done();
     });
-    window.location = '#a';
-    window.location = '#b';
+    router.dispatch('#a');
+    router.dispatch('#b');
   });
 
   it('should register a parametrized route', function (done) {
-    router.route('#hello/:name', function (name) { 
-      assert(name === 'enrico');
+    router.get('#hello/:name', function (req) { 
+      assert(req.name === 'enrico');
       done();
     });
-    window.location = '#a';
-    window.location = '#hello/enrico';
+    router.dispatch('#hello/enrico');
   });
 
 });
