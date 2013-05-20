@@ -1,7 +1,7 @@
 {
   "name": "router",
   "repo": "apily/router",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Router component",
   "keywords": ["router", "hash"],
   "scripts": ["index.js"],
