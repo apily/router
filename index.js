@@ -16,6 +16,7 @@ module.exports = Router;
  * Module dependencies
  */
 
+var Emitter = require('emitter');
 var Route = require('route');
 
 /*
@@ -97,4 +98,3 @@ Router.prototype.dispatch = function (path) {
 
   return this;
 };
-
