@@ -17,17 +17,7 @@ module.exports = Router;
  */
 
 var Emitter = require('emitter');
-var History = require('history');
-
-/**
- * Variables
- * Cached regular expressions for matching 
- * named param parts and splatted parts of route strings.
- */
-
-var named_param = /:\w+/g;
-var splat_param = /\*\w+/g;
-var escape_regexp = /[-[\]{}()+?.,\\^$|#\s]/g;
+var Route = require('route');
 
 /*
  * Router
@@ -41,7 +31,7 @@ function Router() {
     return new Router();
   }
   Emitter.call(this);
-  this.history = History();
+  this.routes = [];
 }
 
 /*
@@ -55,68 +45,56 @@ Router.prototype.constructor = Router;
  *  route
  *  add a route
  * 
- * @param {String} route route name
+ * @param {String} path path
  * @param {Function} callback callback
- * @return {Route} this for chaining
+ * @return {Route} the route of `path`
  * @api public
  */
 
-Router.prototype.route = function (route, callback) {
-  var self = this;
-  var history = this.history;
-  var regexp = route_to_regexp(route);
-  
-  function onroute (fragment) {
-    var params = extract_params(regexp, fragment);
-    callback.apply(self, params);
-  }
-  
-  history.route(regexp, onroute);
-  return this;
+Router.prototype.get = function (path, callback, context) {
+  var routes = this.routes;
+  var route = new Route(path);
+
+  routes.push({ 
+    regexp: route, 
+    callback: callback,
+    context: context
+  });
+
+  return route;
 };
 
 /**
- * navigate
- * Change the location to `location`
- * 
- * @param {String} location the new location to navigate to
- * @return {Router} this for chaining
- * @api public
- */
-
-Router.prototype.navigate = function (location) {
-  window.location = location;
-  return this;
-};
-
-/**
- * route_to_regexp
- * Convert a route string into a regular expression, 
- * suitable for matching against the current location hash.
- * 
- * @param {String} route route
- * @return {RegExp} regexp of the route
- */
-
-function route_to_regexp (route) {
-  var route = route
-    .replace(escape_regexp, '\\$&')
-    .replace(named_param, '([^\/]+)')
-    .replace(splat_param, '(.*?)');
-  var regexp = new RegExp('^' + route + '$');
-  return regexp;
-};
-
-/**
- * extract_params
- * Given a regexp, and a URL fragment that it matches,
- * return the array of extracted parameters.
+ * Dispatch the given `path`,  
+ * matching routes sequentially.
  *
- * @param {String} regexp route regexp
- * @param {String} fragment fragment
- * @return {Array} extracted parameters
+ * @param {String} path
+ * @param {Router} this for chaining
+ * @api public
  */
 
-function extract_params (regexp, fragment) {
-  return regexp.exec(fragment).slice(1);
+Router.prototype.dispatch = function (path) {
+  var routes = this.routes;
+  var n = routes.length;
+  var i;
+  var route;
+  var regexp;
+  var callback;
+  var context;
+  var params;
+
+  for (i = 0; i < n; i += 1) {
+    route = routes[i];
+    regexp = route.regexp;
+    callback = route.callback;
+    context = route.context;
+    params = regexp.match(path);
+
+    if (params) {
+      callback.call(context, params);
+      return this;
+    }
+  }
+
+  return this;
 };
