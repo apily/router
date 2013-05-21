@@ -123,6 +123,7 @@ Router.prototype.waterfall = function (callbacks) {
     var current;
     var next;
     var wrapped;
+    var first;
     var ret = [];
   
     function wrap (current, next) {
@@ -141,7 +142,7 @@ Router.prototype.waterfall = function (callbacks) {
       ret.push(wrapped);
     }
 
-    var first = ret[0];
+    first = ret[0];
 
     first(req);
   };
