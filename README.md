@@ -16,16 +16,39 @@ Create a router
 var router = new Router();
 ```
 
-### Router#get(String:path, Function:callback, [Object:context])
+### Router#get(String:path, Function:callback...)
 
 ```js
-router.get("#users/:user", callback);
+router.get("#users/:user_id", function (req) {
+  var params = req.params;
+  console.log('Hello ' + params.user_id + '!');
+});
+```
+
+```js
+router.get("#users/:user_id/books/:book_id", 
+  function (req, next) {
+    var params = req.params;
+    var user_id = params.user_id;
+    var book_id = params.book_id; 
+    req.hello = 'Hello ' + user_id + '!' 
+      + 'Read the book ' + book_id + '!';
+    next();
+  },
+  function (req) {
+    console.log(req.hello);
+  }
+);
 ```
 
 ### Router#dispatch(String:path)
 
 ```js
-router.navigate("#users/enrico");
+router.dispatch("#users/enrico");
+```
+
+```js
+router.dispatch("#users/enrico/books/123");
 ```
 
 ## License
