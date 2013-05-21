@@ -4,7 +4,7 @@ var router;
 
 describe('Route#route', function () {
 
-  before(function () {
+  beforeEach(function () {
     router = Router();
   });
 
@@ -18,10 +18,29 @@ describe('Route#route', function () {
 
   it('should register a parametrized route', function (done) {
     router.get('#hello/:name', function (req) { 
-      assert(req.name === 'enrico');
+      var params = req.params;
+      assert(params.name === 'enrico');
       done();
     });
     router.dispatch('#hello/enrico');
+  });
+
+  it('should waterfall', function (done) {
+    router.get('#users/:user_id', 
+      function (req, next) { 
+        var params = req.params;
+        assert(params.user_id === '007');
+        req.secret = 'shh... this is a secret!';
+        req.name = 'James';
+        next();
+      }, 
+      function (req) {
+        assert(req.secret);
+        assert(req.name === 'James');
+        done();
+      });
+
+    router.dispatch('#users/007');
   });
 
 });
