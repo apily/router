@@ -25,22 +25,41 @@ describe('Route#route', function () {
     router.dispatch('#hello/enrico');
   });
 
-  it('should waterfall', function (done) {
+  it('should pass to the next callback', function (done) {
     router.get('#users/:user_id', 
       function (req, next) { 
         var params = req.params;
         assert(params.user_id === '007');
-        req.secret = 'shh... this is a secret!';
-        req.name = 'James';
+        req.secret = true;
         next();
       }, 
       function (req) {
         assert(req.secret);
-        assert(req.name === 'James');
         done();
       });
 
     router.dispatch('#users/007');
   });
+
+  it('should pass more than 2 callbacks', function (done) {
+    router.get('#count', 
+      function (req, next) { 
+        req.n = 1;
+        next();
+      }, 
+      function (req, next) {
+        req.n += 1;
+        assert(req.n === 2);
+        next();
+      },
+      function (req, next) {
+        req.n += 1;
+        assert(req.n === 3);
+        done();
+      });
+
+    router.dispatch('#count');
+  });
+
 
 });

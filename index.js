@@ -118,32 +118,20 @@ Router.prototype.dispatch = function (path) {
 
 Router.prototype.waterfall = function (callbacks) {
   return function (req) {
-    var len = callbacks.length;
+    var n = callbacks.length;
     var i;
-    var current;
-    var next;
-    var wrapped;
-    var first;
-    var ret = [];
+    var wrapped = new Array(n);
   
     function wrap (current, next) {
-      function done () { 
-        next(req); 
-      }
       return function () { 
-        current(req, done); 
+        current(req, next); 
       };
     }
 
-    for (i = 0; i < len - 1; i += 1) {
-      current = callbacks[i];
-      next = callbacks[i+1];
-      wrapped = wrap(current, next);
-      ret.push(wrapped);
+    for (i = n-1; i >= 0; i -= 1) {
+      wrapped[i] = wrap(callbacks[i], wrapped[i+1]);
     }
 
-    first = ret[0];
-
-    first(req);
+    wrapped[0](req);
   };
 };
