@@ -25,6 +25,8 @@ var Route = require('route');
 
 var array = [];
 var slice = array.slice;
+var object = {};
+var toString = object.toString;
 
 /*
  * Router
@@ -53,7 +55,7 @@ Router.prototype.constructor = Router;
  * add a route
  * 
  * @param {String} path path
- * @param {Function} callback callback
+ * @param {Function} callback... callback
  * @return {Route} the route of `path`
  * @api public
  */
@@ -62,8 +64,10 @@ Router.prototype.get = function (path, callback) {
   var routes = this.routes;
   var route = new Route(path);
   var args = slice.call(arguments);
-
-  if (args.length > 2) {
+  
+  if (toString.call(callback) === '[object Array]') {
+    callback = this.waterfall(callback);
+  } else if (args.length > 2) {
     args.shift();
     callback = this.waterfall(args);
   }
