@@ -106,6 +106,7 @@ Router.prototype.dispatch = function (path) {
     params = regexp.match(path);
 
     if (params) {
+      req.path = path;
       req.params = params;
       callback.call(null, req);
       return this;
