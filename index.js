@@ -13,10 +13,9 @@
 module.exports = Router;
 
 /*
- * Module dependencies
+ * Component dependencies
  */
 
-var Emitter = require('emitter');
 var Route = require('route');
 
 /**
@@ -56,13 +55,6 @@ Router.use = function (fn) {
   fn(this);
   return this;
 };
-
-/*
- * Inherit from `Emitter`
- */
-
-Router.prototype = Object.create(Emitter.prototype);
-Router.prototype.constructor = Router;
 
 /**
  * route
