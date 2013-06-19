@@ -43,6 +43,20 @@ function Router() {
   this.routes = [];
 }
 
+/**
+ * Router.use
+ * Use a plugin
+ * 
+ * @param {Function} fn plugin
+ * @return {Router} Router constructor
+ * @api public
+ */
+
+Router.use = function (fn) {
+  fn(this);
+  return this;
+};
+
 /*
  * Inherit from `Emitter`
  */
