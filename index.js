@@ -17,6 +17,7 @@ module.exports = Router;
  */
 
 var Route = require('route');
+var Emitter = require('emitter');
 
 /**
  * Utils
