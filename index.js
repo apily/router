@@ -129,6 +129,7 @@ Router.prototype.dispatch = function (path) {
  */
 
 Router.prototype.waterfall = function (callbacks) {
+  var router = this;
   return function (req) {
     var n = callbacks.length;
     var i;
@@ -136,7 +137,7 @@ Router.prototype.waterfall = function (callbacks) {
   
     function wrap (current, next) {
       return function () { 
-        current(req, next); 
+        current.call(router, req, next); 
       };
     }
 
