@@ -9,6 +9,6 @@
   },
   "devDependencies": {},
   "description": "Router component",
-  "keywords": ["history", "onhashchange", "popstate"],
+  "keywords": ["history", "router", "route"],
   "license": "MIT"
 }
