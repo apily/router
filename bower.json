@@ -1,0 +1,12 @@
+{
+  "name": "apily-router",
+  "version": "0.2.0",
+  "scripts": "index.js",
+  "dependencies": {
+    "history": "*"
+  },
+  "devDependencies": {},
+  "description": "Router component",
+  "keywords": ["history", "onhashchange", "popstate"],
+  "license": "MIT"
+}
