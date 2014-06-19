@@ -3,7 +3,6 @@
   "version": "0.3.0",
   "main": "build/build.js",
   "dependencies": {
-    "apily-history": "*",
     "apily-emitter": "*",
     "apily-route": "*"
   },
