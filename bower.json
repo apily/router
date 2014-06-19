@@ -1,7 +1,7 @@
 {
   "name": "apily-router",
   "version": "0.3.0",
-  "main": "index.js",
+  "main": "build/build.js",
   "dependencies": {
     "apily-history": "*",
     "apily-emitter": "*",
